@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Sign in - BestYet{% endblock %}
+
+{% block content %}
+<h1 class="mb-6 mt-12 text-center text-3xl font-bold">BestYet</h1>
+<form method="post" class="flex flex-col gap-4">
+  {% csrf_token %}
+  {% if form.non_field_errors %}
+    <p class="rounded-lg bg-red-100 p-3 text-sm text-red-800 dark:bg-red-950 dark:text-red-200">
+      {{ form.non_field_errors.0 }}
+    </p>
+  {% endif %}
+  <label class="flex flex-col gap-1">
+    <span class="text-sm font-medium">Username</span>
+    <input type="text" name="username" autocomplete="username" required autofocus
+           class="min-h-11 rounded-lg border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900">
+  </label>
+  <label class="flex flex-col gap-1">
+    <span class="text-sm font-medium">Password</span>
+    <input type="password" name="password" autocomplete="current-password" required
+           class="min-h-11 rounded-lg border border-zinc-300 px-3 py-2 dark:border-zinc-700 dark:bg-zinc-900">
+  </label>
+  <button type="submit"
+          class="min-h-11 rounded-lg bg-zinc-900 px-4 py-2 font-semibold text-white dark:bg-zinc-100 dark:text-zinc-900">
+    Sign in
+  </button>
+</form>
+{% endblock %}
