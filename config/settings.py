@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "axes",
     "apps.accounts",
+    "apps.exercises",
 ]
 
 MIDDLEWARE = [

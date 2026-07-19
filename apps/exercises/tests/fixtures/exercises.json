@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Barbell Squat",
+    "force": "push",
+    "level": "intermediate",
+    "mechanic": "compound",
+    "equipment": "barbell",
+    "primaryMuscles": ["quadriceps"],
+    "secondaryMuscles": ["glutes", "hamstrings", "lower back"],
+    "instructions": [
+      "Set the bar on a rack just below shoulder level.",
+      "Squat down by bending the knees and sitting back with the hips."
+    ],
+    "category": "strength",
+    "images": ["Barbell_Squat/0.jpg", "Barbell_Squat/1.jpg"],
+    "id": "Barbell_Squat"
+  },
+  {
+    "name": "Plank",
+    "force": "static",
+    "level": "beginner",
+    "mechanic": "isolation",
+    "equipment": "body only",
+    "primaryMuscles": ["abdominals"],
+    "secondaryMuscles": ["abdominals"],
+    "instructions": ["Hold a push-up position on your forearms."],
+    "category": "strength",
+    "images": [],
+    "id": "Plank"
+  }
+]
