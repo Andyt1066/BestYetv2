@@ -1,0 +1,26 @@
+# Environment / tooling
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.python-version.local
+
+# Built assets (rebuilt from static_src; not committed)
+static/
+staticfiles/
+
+# Local runtime state
+var/
+media/
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm
+
+# Local config holds the secret key; never commit it
+bestyet.ini
+
+# Local binaries (see README for the pinned tailwindcss version)
+tools/
+
+.DS_Store
