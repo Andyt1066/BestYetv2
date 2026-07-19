@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Routine library - BestYet{% endblock %}
+{% block screen_title %}Library{% endblock %}
+
+{% block content %}
+<h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-500">Starter routines</h2>
+<ul class="mb-6 flex flex-col gap-3">
+  {% for routine in curated %}
+  <li class="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+    <p class="font-semibold">{{ routine.name }}</p>
+    {% if routine.description %}<p class="mb-2 text-sm text-zinc-500">{{ routine.description }}</p>{% endif %}
+    <p class="mb-3 text-sm text-zinc-500">{{ routine.exercises.count }} exercise{{ routine.exercises.count|pluralize }}</p>
+    <form method="post" action="{% url 'routines:clone' routine.pk %}">
+      {% csrf_token %}
+      <button class="min-h-11 rounded-lg bg-amber-500 px-4 font-semibold text-zinc-950">Adopt this routine</button>
+    </form>
+  </li>
+  {% empty %}
+  <li class="text-sm text-zinc-500">No starter routines installed yet.</li>
+  {% endfor %}
+</ul>
+
+<h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-500">Shared by others</h2>
+<ul class="flex flex-col gap-3">
+  {% for routine in shared %}
+  <li class="rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+    <p class="font-semibold">{{ routine.name }}</p>
+    <p class="mb-3 text-sm text-zinc-500">{{ routine.exercises.count }} exercise{{ routine.exercises.count|pluralize }}</p>
+    <form method="post" action="{% url 'routines:clone' routine.pk %}">
+      {% csrf_token %}
+      <button class="min-h-11 rounded-lg border border-zinc-300 px-4 font-medium dark:border-zinc-700">Adopt a copy</button>
+    </form>
+  </li>
+  {% empty %}
+  <li class="text-sm text-zinc-500">Nothing shared with you yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

@@ -1,0 +1,27 @@
+<div class="flex flex-col gap-2">
+  <input type="search" name="q" value="{{ query }}" placeholder="Search exercises"
+         hx-get="{% url 'exercises:picker' %}" hx-vals='{"results": "1"}'
+         hx-trigger="input changed delay:300ms" hx-target="#picker-results" hx-include="closest div"
+         class="min-h-11 rounded-lg border border-zinc-300 px-3 dark:border-zinc-700 dark:bg-zinc-900">
+  <div class="flex gap-2">
+    <select name="muscle" hx-get="{% url 'exercises:picker' %}" hx-vals='{"results": "1"}'
+            hx-target="#picker-results" hx-include="closest div"
+            class="min-h-11 flex-1 rounded-lg border border-zinc-300 px-2 text-sm dark:border-zinc-700 dark:bg-zinc-900">
+      <option value="">Any muscle</option>
+      {% for group in muscle_groups %}
+      <option value="{{ group.pk }}" {% if muscle == group.pk|stringformat:"s" %}selected{% endif %}>{{ group.name|title }}</option>
+      {% endfor %}
+    </select>
+    <select name="equipment" hx-get="{% url 'exercises:picker' %}" hx-vals='{"results": "1"}'
+            hx-target="#picker-results" hx-include="closest div"
+            class="min-h-11 flex-1 rounded-lg border border-zinc-300 px-2 text-sm dark:border-zinc-700 dark:bg-zinc-900">
+      <option value="">Any equipment</option>
+      {% for choice in equipment_choices %}
+      <option value="{{ choice }}" {% if equipment == choice %}selected{% endif %}>{{ choice|title }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <div id="picker-results" class="max-h-80 overflow-y-auto">
+    {% include "exercises/partials/_picker_results.html" %}
+  </div>
+</div>

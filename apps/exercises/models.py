@@ -47,8 +47,15 @@ class MuscleRole(models.TextChoices):
     SECONDARY = "secondary", "Secondary"
 
 
+class ExerciseManager(models.Manager):
+    def get_by_natural_key(self, slug):
+        return self.get(slug=slug)
+
+
 class Exercise(TimeStampedModel):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    objects = ExerciseManager()
     name = models.CharField(max_length=120)
     slug = models.SlugField(max_length=140, unique=True)
     force = models.CharField(max_length=6, choices=Force, blank=True, default="")
@@ -82,6 +89,9 @@ class Exercise(TimeStampedModel):
 
     def __str__(self):
         return self.name
+
+    def natural_key(self):
+        return (self.slug,)
 
     def clean(self):
         if self.bar_weight_kg is not None and self.load_type != LoadType.EXTERNAL:

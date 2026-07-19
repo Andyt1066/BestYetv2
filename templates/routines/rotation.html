@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Rotation - BestYet{% endblock %}
+{% block screen_title %}Rotation{% endblock %}
+
+{% block content %}
+<p class="mb-4 text-sm text-zinc-500">
+  Order your routines; the dashboard suggests whichever comes after your last session.
+  It's only a suggestion — you can always start anything.
+</p>
+
+<form method="post" action="{% url 'routines:rotation_reorder' %}" id="rotation-form">
+  {% csrf_token %}
+  <ol id="rotation-list" class="mb-4 flex flex-col gap-2">
+    {% for entry in entries %}
+    <li class="flex items-center gap-2 rounded-xl border border-zinc-200 bg-white p-3 dark:border-zinc-800 dark:bg-zinc-900"
+        data-routine="{{ entry.routine_id }}">
+      <button type="button" class="drag-handle flex min-h-11 min-w-11 cursor-grab items-center justify-center text-zinc-400" aria-label="Drag to reorder">
+        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+      </button>
+      <span class="flex-1 font-medium">{{ entry.routine.name }}</span>
+      <button type="submit" name="remove" value="{{ entry.routine_id }}"
+              formaction="{% url 'routines:rotation_remove' %}"
+              onclick="this.form.routine.value='{{ entry.routine_id }}'"
+              class="flex min-h-11 items-center px-2 text-sm font-medium text-red-600 dark:text-red-400">
+        Remove
+      </button>
+    </li>
+    {% empty %}
+    <li class="rounded-xl border border-dashed border-zinc-300 p-6 text-center text-sm text-zinc-500 dark:border-zinc-700">
+      No routines in rotation. Add one below.
+    </li>
+    {% endfor %}
+  </ol>
+  <input type="hidden" name="routine" value="">
+  <div id="order-inputs"></div>
+  {% if entries %}
+  <button type="submit"
+          class="mb-6 min-h-11 w-full rounded-lg bg-amber-500 px-4 py-2 font-semibold text-zinc-950">
+    Save order
+  </button>
+  {% endif %}
+</form>
+
+{% if available %}
+<h2 class="mb-3 text-sm font-semibold uppercase tracking-wide text-zinc-500">Add to rotation</h2>
+<form method="post" action="{% url 'routines:rotation_add' %}" class="flex gap-2">
+  {% csrf_token %}
+  <select name="routine" class="min-h-11 flex-1 rounded-lg border border-zinc-300 px-3 dark:border-zinc-700 dark:bg-zinc-900">
+    {% for routine in available %}
+    <option value="{{ routine.pk }}">{{ routine.name }}</option>
+    {% endfor %}
+  </select>
+  <button class="min-h-11 rounded-lg border border-zinc-300 px-4 font-medium dark:border-zinc-700">Add</button>
+</form>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/vendor/sortable.min.js' %}"></script>
+<script src="{% static 'js/rotation.js' %}"></script>
+{% endblock %}

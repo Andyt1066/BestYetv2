@@ -1,0 +1,59 @@
+{# One RoutineExercise form row; `form` is a RoutineExerciseForm #}
+<li class="exercise-row rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900"
+    data-row>
+  {{ form.id }}
+  {{ form.position }}
+  <div class="mb-3 flex items-center gap-2">
+    <button type="button" class="drag-handle flex min-h-11 min-w-11 cursor-grab items-center justify-center text-zinc-400" aria-label="Drag to reorder">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor"><circle cx="9" cy="6" r="1.5"/><circle cx="15" cy="6" r="1.5"/><circle cx="9" cy="12" r="1.5"/><circle cx="15" cy="12" r="1.5"/><circle cx="9" cy="18" r="1.5"/><circle cx="15" cy="18" r="1.5"/></svg>
+    </button>
+    <div class="flex-1">{{ form.exercise }}{{ form.exercise.errors }}</div>
+    <button type="button" data-remove-row
+            class="flex min-h-11 min-w-11 items-center justify-center text-zinc-400"
+            aria-label="Remove exercise">
+      <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+    <span class="hidden">{{ form.DELETE }}</span>
+  </div>
+  <div class="grid grid-cols-3 gap-2">
+    <label class="flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Sets{{ form.target_sets }}{{ form.target_sets.errors }}
+    </label>
+    <label class="flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Reps low{{ form.target_reps_low }}{{ form.target_reps_low.errors }}
+    </label>
+    <label class="flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Reps high{{ form.target_reps_high }}{{ form.target_reps_high.errors }}
+    </label>
+    <label class="flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Target RPE{{ form.target_rpe }}{{ form.target_rpe.errors }}
+    </label>
+    <label class="flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Rest s{{ form.rest_seconds }}{{ form.rest_seconds.errors }}
+    </label>
+    <label class="flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Superset #{{ form.superset_group }}{{ form.superset_group.errors }}
+    </label>
+    <label class="flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Superset rest s{{ form.superset_rest_seconds }}{{ form.superset_rest_seconds.errors }}
+    </label>
+    <label class="flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Duration s{{ form.target_duration_seconds }}{{ form.target_duration_seconds.errors }}
+    </label>
+    <label class="flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Distance m{{ form.target_distance_m }}{{ form.target_distance_m.errors }}
+    </label>
+    <label class="flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Progression{{ form.progression_style }}{{ form.progression_style.errors }}
+    </label>
+    <label class="flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Increment kg{{ form.progression_increment_kg }}{{ form.progression_increment_kg.errors }}
+    </label>
+    <label class="flex min-h-11 items-end gap-2 pb-2 text-xs font-medium text-zinc-500">
+      {{ form.last_set_amrap }} Last set AMRAP
+    </label>
+  </div>
+  <label class="mt-2 flex flex-col gap-1 text-xs font-medium text-zinc-500">
+    Notes{{ form.notes }}
+  </label>
+</li>

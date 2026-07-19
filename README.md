@@ -39,6 +39,22 @@ tools/tailwindcss -i static_src/input.css -o static/css/app.css --minify
 tools/tailwindcss -i static_src/input.css -o static/css/app.css --watch
 ```
 
+## Vendored frontend libraries
+
+`static_src/js/vendor/` carries htmx 2.0.7 (BSD-2-Clause) and SortableJS
+1.15.6 (MIT). No node toolchain; update by replacing the files.
+
+## Seeding the exercise library
+
+```sh
+git clone --depth 1 https://github.com/yuhonas/free-exercise-db /tmp/fed
+uv run python manage.py import_exercises /tmp/fed/dist/exercises.json --images-dir /tmp/fed/exercises
+uv run python manage.py loaddata curated_routines   # after activating its exercises
+```
+
+The import is idempotent and never overwrites curation flags (`active`,
+`load_type`, `bar_weight_kg`, ...) on re-run.
+
 ## Quality gates
 
 Both must pass before every commit; there is deliberately no CI.

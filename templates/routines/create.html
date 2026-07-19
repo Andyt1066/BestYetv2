@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}New routine - BestYet{% endblock %}
+{% block screen_title %}New routine{% endblock %}
+
+{% block content %}
+<form method="post" class="flex flex-col gap-4">
+  {% csrf_token %}
+  <label class="flex flex-col gap-1">
+    <span class="text-sm font-medium">Name</span>
+    {{ form.name }}
+    {{ form.name.errors }}
+  </label>
+  <label class="flex flex-col gap-1">
+    <span class="text-sm font-medium">Description <span class="text-zinc-400">(optional)</span></span>
+    {{ form.description }}
+  </label>
+  <button type="submit"
+          class="min-h-11 rounded-lg bg-amber-500 px-4 py-2 font-semibold text-zinc-950">
+    Create and add exercises
+  </button>
+</form>
+{% endblock %}

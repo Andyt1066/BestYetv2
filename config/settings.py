@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "axes",
     "apps.accounts",
     "apps.exercises",
+    "apps.routines",
 ]
 
 MIDDLEWARE = [
@@ -144,7 +145,10 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
-STATICFILES_DIRS = [BASE_DIR / "static"]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    ("js", BASE_DIR / "static_src" / "js"),
+]
 STORAGES = {
     "default": {"BACKEND": "django.core.files.storage.FileSystemStorage"},
     "staticfiles": {"BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage"},

@@ -1,0 +1,9 @@
+{% for exercise in exercises %}
+<button type="button" data-exercise-id="{{ exercise.pk }}" data-exercise-name="{{ exercise.name }}"
+        class="flex min-h-11 w-full items-center justify-between rounded-lg px-3 text-left hover:bg-zinc-100 dark:hover:bg-zinc-800">
+  <span>{{ exercise.name }}</span>
+  <span class="text-xs text-zinc-400">{{ exercise.equipment }}</span>
+</button>
+{% empty %}
+<p class="px-3 py-4 text-sm text-zinc-500">No exercises match. Adjust the filters, or activate more of the library in the admin.</p>
+{% endfor %}

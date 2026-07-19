@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ routine.name }} - BestYet{% endblock %}
+{% block screen_title %}Edit routine{% endblock %}
+
+{% block content %}
+<form method="post" id="routine-form" class="flex flex-col gap-4">
+  {% csrf_token %}
+  <label class="flex flex-col gap-1">
+    <span class="text-sm font-medium">Name</span>
+    {{ form.name }}{{ form.name.errors }}
+  </label>
+  <label class="flex flex-col gap-1">
+    <span class="text-sm font-medium">Description <span class="text-zinc-400">(optional)</span></span>
+    {{ form.description }}
+  </label>
+  <label class="flex flex-col gap-1">
+    <span class="text-sm font-medium">Visibility</span>
+    {{ form.visibility }}{{ form.visibility.errors }}
+  </label>
+
+  <h2 class="mt-2 text-sm font-semibold uppercase tracking-wide text-zinc-500">Exercises</h2>
+  {{ formset.management_form }}
+  {{ formset.non_form_errors }}
+  <ul id="exercise-rows" class="flex flex-col gap-3">
+    {% for exercise_form in formset %}
+      {% include "routines/partials/_exercise_row.html" with form=exercise_form %}
+    {% endfor %}
+  </ul>
+
+  <button type="button" id="add-exercise"
+          class="min-h-11 rounded-lg border border-dashed border-zinc-400 px-4 py-2 font-medium text-zinc-600 dark:border-zinc-600 dark:text-zinc-300">
+    Add exercise
+  </button>
+
+  <button type="submit"
+          class="min-h-11 rounded-lg bg-amber-500 px-4 py-2 font-semibold text-zinc-950">
+    Save routine
+  </button>
+</form>
+
+<template id="empty-row-template">
+  {% include "routines/partials/_exercise_row.html" with form=formset.empty_form %}
+</template>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/vendor/sortable.min.js' %}"></script>
+<script src="{% static 'js/routine-builder.js' %}"></script>
+{% endblock %}

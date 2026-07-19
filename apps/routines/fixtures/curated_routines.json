@@ -1,0 +1,608 @@
+[
+  {
+    "model": "routines.routine",
+    "pk": "c0ffee01-0000-4000-8000-000000000001",
+    "fields": {
+      "owner": null,
+      "name": "Beginner full-body 5x5",
+      "description": "Three sessions a week, alternating with rest days. Add weight every session you hit all the reps.",
+      "visibility": "curated",
+      "cloned_from": null,
+      "archived": false,
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000001",
+      "exercise": [
+        "barbell-squat"
+      ],
+      "position": 0,
+      "target_sets": 5,
+      "target_reps_low": 5,
+      "target_reps_high": null,
+      "rest_seconds": 180,
+      "progression_style": "linear",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000001",
+      "exercise": [
+        "barbell-bench-press-medium-grip"
+      ],
+      "position": 1,
+      "target_sets": 5,
+      "target_reps_low": 5,
+      "target_reps_high": null,
+      "rest_seconds": 180,
+      "progression_style": "linear",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000001",
+      "exercise": [
+        "bent-over-barbell-row"
+      ],
+      "position": 2,
+      "target_sets": 5,
+      "target_reps_low": 5,
+      "target_reps_high": null,
+      "rest_seconds": 180,
+      "progression_style": "linear",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000001",
+      "exercise": [
+        "standing-military-press"
+      ],
+      "position": 3,
+      "target_sets": 5,
+      "target_reps_low": 5,
+      "target_reps_high": null,
+      "rest_seconds": 180,
+      "progression_style": "linear",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000001",
+      "exercise": [
+        "barbell-deadlift"
+      ],
+      "position": 4,
+      "target_sets": 1,
+      "target_reps_low": 5,
+      "target_reps_high": null,
+      "rest_seconds": 240,
+      "progression_style": "linear",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routine",
+    "pk": "c0ffee01-0000-4000-8000-000000000002",
+    "fields": {
+      "owner": null,
+      "name": "Push/Pull/Legs: Push",
+      "description": "Six-day split, day 1 of 3. Chest, shoulders, triceps.",
+      "visibility": "curated",
+      "cloned_from": null,
+      "archived": false,
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000002",
+      "exercise": [
+        "barbell-bench-press-medium-grip"
+      ],
+      "position": 0,
+      "target_sets": 4,
+      "target_reps_low": 6,
+      "target_reps_high": 10,
+      "rest_seconds": 150,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000002",
+      "exercise": [
+        "barbell-shoulder-press"
+      ],
+      "position": 1,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 120,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000002",
+      "exercise": [
+        "barbell-incline-bench-press-medium-grip"
+      ],
+      "position": 2,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 120,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000002",
+      "exercise": [
+        "dips-triceps-version"
+      ],
+      "position": 3,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 90,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000002",
+      "exercise": [
+        "cable-rope-overhead-triceps-extension"
+      ],
+      "position": 4,
+      "target_sets": 3,
+      "target_reps_low": 10,
+      "target_reps_high": 15,
+      "rest_seconds": 60,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routine",
+    "pk": "c0ffee01-0000-4000-8000-000000000003",
+    "fields": {
+      "owner": null,
+      "name": "Push/Pull/Legs: Pull",
+      "description": "Six-day split, day 2 of 3. Back and biceps.",
+      "visibility": "curated",
+      "cloned_from": null,
+      "archived": false,
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000003",
+      "exercise": [
+        "barbell-deadlift"
+      ],
+      "position": 0,
+      "target_sets": 2,
+      "target_reps_low": 5,
+      "target_reps_high": null,
+      "rest_seconds": 240,
+      "progression_style": "linear",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000003",
+      "exercise": [
+        "pullups"
+      ],
+      "position": 1,
+      "target_sets": 3,
+      "target_reps_low": 6,
+      "target_reps_high": 10,
+      "rest_seconds": 120,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000003",
+      "exercise": [
+        "bent-over-barbell-row"
+      ],
+      "position": 2,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 120,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000003",
+      "exercise": [
+        "wide-grip-lat-pulldown"
+      ],
+      "position": 3,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 90,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000003",
+      "exercise": [
+        "face-pull"
+      ],
+      "position": 4,
+      "target_sets": 3,
+      "target_reps_low": 12,
+      "target_reps_high": 15,
+      "rest_seconds": 60,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000003",
+      "exercise": [
+        "barbell-curl"
+      ],
+      "position": 5,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 60,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routine",
+    "pk": "c0ffee01-0000-4000-8000-000000000004",
+    "fields": {
+      "owner": null,
+      "name": "Push/Pull/Legs: Legs",
+      "description": "Six-day split, day 3 of 3. Quads, hamstrings, glutes.",
+      "visibility": "curated",
+      "cloned_from": null,
+      "archived": false,
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000004",
+      "exercise": [
+        "barbell-squat"
+      ],
+      "position": 0,
+      "target_sets": 4,
+      "target_reps_low": 6,
+      "target_reps_high": 10,
+      "rest_seconds": 180,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000004",
+      "exercise": [
+        "romanian-deadlift"
+      ],
+      "position": 1,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 150,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000004",
+      "exercise": [
+        "leg-press"
+      ],
+      "position": 2,
+      "target_sets": 3,
+      "target_reps_low": 10,
+      "target_reps_high": 15,
+      "rest_seconds": 120,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000004",
+      "exercise": [
+        "barbell-lunge"
+      ],
+      "position": 3,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 90,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routine",
+    "pk": "c0ffee01-0000-4000-8000-000000000005",
+    "fields": {
+      "owner": null,
+      "name": "Upper/Lower: Upper",
+      "description": "Four-day split, upper day. Pair with the lower day.",
+      "visibility": "curated",
+      "cloned_from": null,
+      "archived": false,
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000005",
+      "exercise": [
+        "barbell-bench-press-medium-grip"
+      ],
+      "position": 0,
+      "target_sets": 4,
+      "target_reps_low": 6,
+      "target_reps_high": 10,
+      "rest_seconds": 150,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000005",
+      "exercise": [
+        "bent-over-barbell-row"
+      ],
+      "position": 1,
+      "target_sets": 4,
+      "target_reps_low": 6,
+      "target_reps_high": 10,
+      "rest_seconds": 150,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000005",
+      "exercise": [
+        "standing-military-press"
+      ],
+      "position": 2,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 120,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000005",
+      "exercise": [
+        "wide-grip-lat-pulldown"
+      ],
+      "position": 3,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 90,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000005",
+      "exercise": [
+        "barbell-curl"
+      ],
+      "position": 4,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 60,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routine",
+    "pk": "c0ffee01-0000-4000-8000-000000000006",
+    "fields": {
+      "owner": null,
+      "name": "Upper/Lower: Lower",
+      "description": "Four-day split, lower day. Pair with the upper day.",
+      "visibility": "curated",
+      "cloned_from": null,
+      "archived": false,
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000006",
+      "exercise": [
+        "barbell-squat"
+      ],
+      "position": 0,
+      "target_sets": 4,
+      "target_reps_low": 6,
+      "target_reps_high": 10,
+      "rest_seconds": 180,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000006",
+      "exercise": [
+        "romanian-deadlift"
+      ],
+      "position": 1,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 150,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000006",
+      "exercise": [
+        "leg-press"
+      ],
+      "position": 2,
+      "target_sets": 3,
+      "target_reps_low": 10,
+      "target_reps_high": 15,
+      "rest_seconds": 120,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  },
+  {
+    "model": "routines.routineexercise",
+    "pk": null,
+    "fields": {
+      "routine": "c0ffee01-0000-4000-8000-000000000006",
+      "exercise": [
+        "barbell-lunge"
+      ],
+      "position": 3,
+      "target_sets": 3,
+      "target_reps_low": 8,
+      "target_reps_high": 12,
+      "rest_seconds": 90,
+      "progression_style": "double",
+      "created_at": "2026-07-19T00:00:00Z",
+      "updated_at": "2026-07-19T00:00:00Z"
+    }
+  }
+]
