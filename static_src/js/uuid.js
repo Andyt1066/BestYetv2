@@ -8,8 +8,11 @@ window.BestYet.uuid = function () {
   );
 };
 
-// CSRF token read from the cookie for JSON POSTs.
+// CSRF token for JSON POSTs. The cookie is HttpOnly (unreadable by JS), so the
+// token is rendered into a <meta> tag; fall back to the cookie if that changes.
 window.BestYet.csrfToken = function () {
+  const meta = document.querySelector('meta[name="csrf-token"]');
+  if (meta && meta.content) return meta.content;
   const match = document.cookie.match(/(?:^|;\s*)csrftoken=([^;]+)/);
   return match ? match[1] : "";
 };

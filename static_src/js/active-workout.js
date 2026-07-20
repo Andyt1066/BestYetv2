@@ -30,11 +30,14 @@
 
   function readRow(row, block) {
     const metric = block.dataset.metric;
+    // Position reflects the row's live order within the block, so warm-ups
+    // inserted above the working sets sort ahead of them (not by stale index).
+    const rowsInBlock = Array.from(block.querySelectorAll(".set-row"));
     const data = {
       id: row.dataset.setId || uuid(),
       session: sessionId,
       exercise: block.dataset.exerciseId,
-      position: parseInt(row.dataset.position || "0", 10),
+      position: rowsInBlock.indexOf(row),
       set_type: row.dataset.warmup ? "warmup" : "normal",
       weight_kg: row.querySelector(".weight-input").value || "0",
       completed_at: new Date().toISOString(),
@@ -144,7 +147,7 @@
       openHistory(history.dataset.exerciseId);
       return;
     }
-    // Long-press on a weight field opens the plate calculator for barbells.
+    // Double-tap a weight field to open the plate calculator (barbells only).
     const weightLabel = event.target.closest(".weight-input");
     if (weightLabel && event.detail === 2) {
       const block = weightLabel.closest(".exercise-block");

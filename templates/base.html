@@ -3,6 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  {# CSRF cookie is HttpOnly, so JS reads the token from here (spec security posture). #}
+  <meta name="csrf-token" content="{{ csrf_token }}">
   <title>{% block title %}BestYet{% endblock %}</title>
   <link rel="stylesheet" href="{% static 'css/app.css' %}">
   <script defer src="{% static 'js/vendor/htmx.min.js' %}"></script>
