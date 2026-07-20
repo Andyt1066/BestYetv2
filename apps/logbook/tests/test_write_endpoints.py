@@ -78,6 +78,30 @@ def test_start_session_is_idempotent(as_andy, andy):
     assert WorkoutSession.objects.filter(user=andy).count() == 1
 
 
+def test_start_session_with_empty_routine_is_freeform(as_andy, andy):
+    session_id = str(uuid.uuid4())
+    resp = post_json(
+        as_andy,
+        reverse("logbook:session_start"),
+        {"id": session_id, "routine": "", "started_at": timezone.now().isoformat()},
+    )
+    assert resp.status_code == 200
+    assert WorkoutSession.objects.get(pk=session_id).routine_id is None
+
+
+def test_start_session_records_routine(as_andy, andy):
+    from apps.routines.models import Routine
+
+    routine = Routine.objects.create(owner=andy, name="Leg day")
+    session_id = str(uuid.uuid4())
+    post_json(
+        as_andy,
+        reverse("logbook:session_start"),
+        {"id": session_id, "routine": str(routine.pk)},
+    )
+    assert WorkoutSession.objects.get(pk=session_id).routine_id == routine.pk
+
+
 def test_finish_session_sets_ended_at(as_andy, andy):
     session_id, _ = start_session(as_andy)
     resp = post_json(

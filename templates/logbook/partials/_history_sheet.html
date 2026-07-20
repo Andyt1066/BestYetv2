@@ -1,0 +1,25 @@
+<h3 class="mb-3 text-base font-semibold">{{ exercise.name }}</h3>
+{% if rows %}
+<table class="w-full text-sm">
+  <thead>
+    <tr class="text-left text-xs uppercase text-zinc-400">
+      <th class="pb-2">Date</th>
+      <th class="pb-2 text-right">Weight</th>
+      <th class="pb-2 text-right">Reps</th>
+      <th class="pb-2 text-right">e1RM</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for row in rows %}
+    <tr class="border-t border-zinc-100 dark:border-zinc-800">
+      <td class="py-2">{{ row.date|date:"j M" }}</td>
+      <td class="py-2 text-right tabular-nums">{{ row.weight_kg }}</td>
+      <td class="py-2 text-right tabular-nums">{{ row.reps|default:"—" }}</td>
+      <td class="py-2 text-right tabular-nums">{{ row.e1rm|default:"—" }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<p class="text-sm text-zinc-500">No history yet for this exercise.</p>
+{% endif %}

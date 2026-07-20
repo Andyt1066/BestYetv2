@@ -1,0 +1,42 @@
+{# One exercise block: its scaffold rows + any already-logged sets. #}
+<section class="exercise-block rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900"
+         data-exercise-id="{{ block.exercise.pk }}"
+         data-exercise-name="{{ block.exercise.name }}"
+         data-metric="{{ block.exercise.metric }}"
+         data-unilateral="{{ block.exercise.unilateral|yesno:'1,0' }}"
+         data-load-type="{{ block.exercise.load_type }}"
+         {% if block.exercise.bar_weight_kg %}data-bar-weight="{{ block.exercise.bar_weight_kg }}"{% endif %}
+         data-rest-seconds="{{ block.rest_seconds|default:'' }}"
+         {% if block.superset_group %}data-superset="{{ block.superset_group }}"{% endif %}>
+  <div class="mb-3 flex items-center justify-between">
+    <button type="button" class="history-trigger text-left text-lg font-bold"
+            data-exercise-id="{{ block.exercise.pk }}">
+      {{ block.exercise.name }}
+    </button>
+    {% if block.superset_group %}
+    <span class="rounded-full bg-indigo-100 px-2 py-0.5 text-xs font-medium text-indigo-700 dark:bg-indigo-950 dark:text-indigo-300">Superset {{ block.superset_group }}</span>
+    {% endif %}
+  </div>
+
+  {% if block.target_reps_low %}
+  <p class="mb-2 text-sm text-zinc-500">
+    Target: {{ block.target_sets }} ×
+    {% if block.target_reps_high %}{{ block.target_reps_low }}–{{ block.target_reps_high }}{% else %}{{ block.target_reps_low }}{% endif %} reps
+    {% if block.target_rpe %} @ RPE {{ block.target_rpe }}{% endif %}
+  </p>
+  {% endif %}
+
+  <ul class="set-list flex flex-col gap-2">
+    {% for planned in block.planned_sets %}
+      {% include "logbook/partials/_set_row.html" with planned=planned block=block done=planned.logged %}
+    {% endfor %}
+  </ul>
+
+  <div class="mt-3 flex flex-wrap gap-2 text-sm">
+    <button type="button" class="add-set min-h-11 rounded-lg border border-zinc-300 px-3 font-medium dark:border-zinc-700">Add set</button>
+    <button type="button" class="swap-exercise min-h-11 rounded-lg border border-zinc-300 px-3 font-medium dark:border-zinc-700">Swap</button>
+    {% if block.exercise.metric == "weight_reps" %}
+    <button type="button" class="generate-warmups min-h-11 rounded-lg border border-zinc-300 px-3 font-medium dark:border-zinc-700">Warm-ups</button>
+    {% endif %}
+  </div>
+</section>

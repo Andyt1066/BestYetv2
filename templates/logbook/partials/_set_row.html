@@ -1,0 +1,59 @@
+{# A single set row. Used three ways:
+   - scaffold row (planned set; `planned.logged` is set once completed)
+   - logged row in a freeform/extra block (`logged` is a SetLog)
+   - client template clone (no context; JS fills and appends it)
+   The caller passes `done` — the completed SetLog for this row, or empty for
+   an uncompleted planned/clone row. `metric` comes from the block. #}
+{% with metric=block.exercise.metric|default:"weight_reps" %}
+<li class="set-row flex items-center gap-2 rounded-lg bg-zinc-50 p-2 dark:bg-zinc-800/60
+           {% if done %}is-complete{% endif %}"
+    {% if done %}data-set-id="{{ done.pk }}" data-set-type="{{ done.set_type }}"{% endif %}
+    data-position="{% if done %}{{ done.position }}{% elif planned %}{{ planned.index }}{% else %}0{% endif %}"
+    {% if planned.is_amrap %}data-amrap="1"{% endif %}>
+
+  {# Weight stepper #}
+  <div class="flex flex-1 flex-col items-center">
+    <span class="text-[10px] font-medium uppercase text-zinc-400">kg</span>
+    <div class="flex items-center gap-1">
+      <button type="button" class="step-down min-h-11 min-w-11 rounded-lg bg-zinc-200 text-xl font-bold dark:bg-zinc-700" aria-label="Decrease weight">−</button>
+      <input type="text" inputmode="decimal" class="weight-input w-16 bg-transparent text-center text-3xl font-bold tabular-nums"
+             value="{{ done.weight_kg|default:'' }}" placeholder="{{ planned.ghost_weight }}" data-step="2.5">
+      <button type="button" class="step-up min-h-11 min-w-11 rounded-lg bg-zinc-200 text-xl font-bold dark:bg-zinc-700" aria-label="Increase weight">+</button>
+    </div>
+  </div>
+
+  {# Metric-specific field #}
+  <div class="flex flex-col items-center">
+    {% if metric == "weight_time" %}
+    <span class="text-[10px] font-medium uppercase text-zinc-400">secs</span>
+    <input type="text" inputmode="numeric" class="duration-input w-16 bg-transparent text-center text-3xl font-bold tabular-nums"
+           value="{{ done.duration_seconds|default:'' }}">
+    {% elif metric == "weight_distance_time" %}
+    <span class="text-[10px] font-medium uppercase text-zinc-400">m</span>
+    <input type="text" inputmode="decimal" class="distance-input w-16 bg-transparent text-center text-3xl font-bold tabular-nums"
+           value="{{ done.distance_m|default:'' }}">
+    {% else %}
+    <span class="text-[10px] font-medium uppercase text-zinc-400">{% if planned.is_amrap %}max{% else %}reps{% endif %}</span>
+    <input type="text" inputmode="numeric" class="reps-input w-16 bg-transparent text-center text-3xl font-bold tabular-nums"
+           value="{{ done.reps|default:'' }}" placeholder="{{ planned.ghost_reps }}">
+    {% endif %}
+  </div>
+
+  {# Unilateral side toggle #}
+  {% if block.exercise.unilateral %}
+  <button type="button" class="side-toggle min-h-11 min-w-11 rounded-lg bg-zinc-200 text-sm font-bold dark:bg-zinc-700"
+          data-side="{{ done.side|default:'left' }}">{{ done.side|default:'left'|upper|slice:':1' }}</button>
+  {% endif %}
+
+  {# Tick target: the ONLY control that completes a set (invariant 21) #}
+  <button type="button"
+          class="tick-target flex min-h-11 min-w-11 items-center justify-center rounded-full border-2
+                 {% if done %}border-emerald-500 bg-emerald-500 text-white{% else %}border-zinc-300 text-transparent dark:border-zinc-600{% endif %}"
+          aria-label="Complete set">
+    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+  </button>
+
+  {# PR flash badge, shown by JS on a personal record #}
+  <span class="pr-badge hidden rounded-full bg-amber-400 px-2 py-0.5 text-xs font-bold text-zinc-950">PR</span>
+</li>
+{% endwith %}

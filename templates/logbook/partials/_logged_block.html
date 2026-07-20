@@ -1,0 +1,22 @@
+{# An exercise block for sets already logged that aren't part of the routine
+   scaffold (freeform sessions, in-session swaps and extras). #}
+<section class="exercise-block rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900"
+         data-exercise-id="{{ group.exercise.pk }}"
+         data-exercise-name="{{ group.exercise.name }}"
+         data-metric="{{ group.exercise.metric }}"
+         data-unilateral="{{ group.exercise.unilateral|yesno:'1,0' }}"
+         data-load-type="{{ group.exercise.load_type }}"
+         {% if group.exercise.bar_weight_kg %}data-bar-weight="{{ group.exercise.bar_weight_kg }}"{% endif %}>
+  <div class="mb-3 flex items-center justify-between">
+    <button type="button" class="history-trigger text-left text-lg font-bold"
+            data-exercise-id="{{ group.exercise.pk }}">{{ group.exercise.name }}</button>
+  </div>
+  <ul class="set-list flex flex-col gap-2">
+    {% for logged in group.sets %}
+      {% include "logbook/partials/_set_row.html" with done=logged block=group %}
+    {% endfor %}
+  </ul>
+  <div class="mt-3 flex flex-wrap gap-2 text-sm">
+    <button type="button" class="add-set min-h-11 rounded-lg border border-zinc-300 px-3 font-medium dark:border-zinc-700">Add set</button>
+  </div>
+</section>

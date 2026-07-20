@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Active workout - BestYet{% endblock %}
+{% block screen_title %}{% if routine %}{{ routine.name }}{% else %}Freeform{% endif %}{% endblock %}
+
+{% block content %}
+<div id="workout"
+     data-session-id="{{ session_id }}"
+     data-new-session="{{ new_session|yesno:'1,0' }}"
+     {% if routine %}data-routine-id="{{ routine.pk }}"{% endif %}
+     data-start-url="{% url 'logbook:session_start' %}"
+     data-set-url="{% url 'logbook:set_upsert' %}"
+     data-picker-url="{% url 'exercises:picker' %}">
+
+  {% if session.edited_at %}
+  <p class="mb-3 rounded-lg bg-zinc-200 px-3 py-1 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">Edited after finish</p>
+  {% endif %}
+
+  <div id="blocks" class="flex flex-col gap-6">
+    {% for block in blocks %}
+      {% include "logbook/partials/_block.html" with block=block %}
+    {% endfor %}
+    {% for group in logged_blocks %}
+      {% include "logbook/partials/_logged_block.html" with group=group %}
+    {% endfor %}
+  </div>
+
+  <button type="button" id="add-exercise"
+          class="mt-6 min-h-14 w-full rounded-xl border border-dashed border-zinc-400 text-base font-medium text-zinc-600 dark:border-zinc-600 dark:text-zinc-300">
+    Add exercise
+  </button>
+
+  <button type="button" id="finish-workout"
+          class="mt-3 min-h-14 w-full rounded-xl bg-amber-500 text-lg font-semibold text-zinc-950">
+    Finish workout
+  </button>
+</div>
+
+{# Rest timer overlay #}
+<div id="rest-timer" hidden
+     class="fixed inset-x-0 bottom-16 z-30 mx-auto max-w-md px-4">
+  <div class="flex items-center justify-between rounded-xl bg-zinc-900 px-4 py-3 text-white shadow-lg dark:bg-zinc-100 dark:text-zinc-900">
+    <span class="text-sm font-medium">Rest</span>
+    <span id="rest-remaining" class="text-3xl font-bold tabular-nums">0:00</span>
+    <button type="button" id="rest-skip" class="min-h-11 rounded-lg px-3 text-sm font-semibold">Skip</button>
+  </div>
+</div>
+
+{# Exercise picker sheet (swap/add) #}
+<div id="picker-sheet" hidden class="fixed inset-0 z-40 flex items-end bg-black/40">
+  <div class="max-h-[80vh] w-full overflow-y-auto rounded-t-2xl bg-white p-4 dark:bg-zinc-900">
+    <div class="mb-3 flex items-center justify-between">
+      <h2 class="text-lg font-semibold" id="picker-title">Add exercise</h2>
+      <button type="button" id="picker-close" class="min-h-11 min-w-11 text-zinc-400" aria-label="Close">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div id="picker-body"></div>
+  </div>
+</div>
+
+{# History bottom sheet #}
+<div id="history-sheet" hidden class="fixed inset-0 z-40 flex items-end bg-black/40">
+  <div class="max-h-[70vh] w-full overflow-y-auto rounded-t-2xl bg-white p-4 dark:bg-zinc-900">
+    <div class="mb-3 flex items-center justify-between">
+      <h2 class="text-lg font-semibold">History</h2>
+      <button type="button" id="history-close" class="min-h-11 min-w-11 text-zinc-400" aria-label="Close">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div id="history-body"></div>
+  </div>
+</div>
+
+<template id="set-row-template">
+  {% include "logbook/partials/_set_row.html" %}
+</template>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'js/uuid.js' %}"></script>
+<script src="{% static 'js/steppers.js' %}"></script>
+<script src="{% static 'js/rest-timer.js' %}"></script>
+<script src="{% static 'js/wake-lock.js' %}"></script>
+<script src="{% static 'js/active-workout.js' %}"></script>
+{% endblock %}

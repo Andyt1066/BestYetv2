@@ -10,6 +10,7 @@ from decimal import Decimal, InvalidOperation
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 from django.http import HttpResponseBadRequest, JsonResponse
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
@@ -19,6 +20,7 @@ from django.views.decorators.http import require_POST
 from apps.exercises.models import Exercise
 from apps.logbook.models import CardioLog, SetLog, WorkoutSession
 from apps.logbook.prs import pr_check
+from apps.routines.models import Routine
 
 
 def _payload(request):
@@ -56,13 +58,14 @@ def session_start(request):
     if _owned_by_other(WorkoutSession, session_id, request.user):
         return JsonResponse({"error": "id belongs to another user"}, status=409)
     started_at = parse_datetime(data.get("started_at", "")) or timezone.now()
+    routine = None
+    if data.get("routine"):
+        routine = get_object_or_404(
+            Routine, Q(owner=request.user) | Q(visibility="curated"), pk=data["routine"]
+        )
     session, _created = WorkoutSession.all_objects.get_or_create(
         pk=session_id,
-        defaults={
-            "user": request.user,
-            "started_at": started_at,
-            "routine_id": data.get("routine"),
-        },
+        defaults={"user": request.user, "started_at": started_at, "routine": routine},
     )
     return JsonResponse({"id": str(session.pk)})
 
