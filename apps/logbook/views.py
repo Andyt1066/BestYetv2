@@ -61,6 +61,24 @@ def new_freeform(request):
 
 
 @login_required
+def new_backdated(request):
+    # "Log past session": the active screen with a date/time picker and the
+    # rest timer disabled (invariant 16). Validation lives in the model.
+    return render(
+        request,
+        "logbook/active.html",
+        {
+            "session_id": uuid.uuid4(),
+            "routine": None,
+            "blocks": [],
+            "logged_sets": [],
+            "new_session": True,
+            "backdated": True,
+        },
+    )
+
+
+@login_required
 def active(request, pk):
     session = get_object_or_404(WorkoutSession, pk=pk, user=request.user)
     blocks = build_scaffold(request.user, session.routine, session=session)

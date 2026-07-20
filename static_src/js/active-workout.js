@@ -12,9 +12,17 @@
   window.BestYet.initSteppers(root);
   window.BestYet.WakeLock.acquire();
 
+  const backdated = root.dataset.backdated === "1";
+
+  function backdateValue(id) {
+    const el = document.getElementById(id);
+    return el && el.value ? new Date(el.value).toISOString() : null;
+  }
+
   async function ensureSession() {
     if (sessionStarted) return;
-    const body = { id: sessionId, started_at: new Date().toISOString() };
+    const startedAt = backdated ? backdateValue("backdate-started") : null;
+    const body = { id: sessionId, started_at: startedAt || new Date().toISOString() };
     if (root.dataset.routineId) body.routine = root.dataset.routineId;
     const resp = await postJSON(root.dataset.startUrl, body);
     if (resp.ok) sessionStarted = true;
@@ -65,8 +73,11 @@
     if (result.pr && result.pr.any) {
       row.querySelector(".pr-badge").classList.remove("hidden");
     }
-    const rest = parseInt(block.dataset.restSeconds || "0", 10);
-    if (rest) window.BestYet.RestTimer.start(rest);
+    // The rest timer is disabled for backdated ("log past session") entry.
+    if (!backdated) {
+      const rest = parseInt(block.dataset.restSeconds || "0", 10);
+      if (rest) window.BestYet.RestTimer.start(rest);
+    }
   }
 
   function addSetRow(block, opts) {
@@ -76,10 +87,30 @@
     const list = block.querySelector(".set-list");
     row.dataset.position = list.querySelectorAll(".set-row").length;
     if (opts.warmup) row.dataset.warmup = "1";
-    // Adjust the metric field to the block's metric (template defaults to reps).
+    if (opts.weight != null) row.querySelector(".weight-input").value = opts.weight;
+    if (opts.reps != null) {
+      const repsInput = row.querySelector(".reps-input");
+      if (repsInput) repsInput.value = opts.reps;
+    }
     list.appendChild(row);
     window.BestYet.initSteppers(block);
     return row;
+  }
+
+  async function generateWarmups(block) {
+    const firstRow = block.querySelector(".set-row:not([data-warmup])");
+    const weight = firstRow ? firstRow.querySelector(".weight-input").value : "";
+    if (!weight) return;
+    const url = `${root.dataset.warmupsUrl}?exercise=${block.dataset.exerciseId}&weight=${weight}`;
+    const resp = await fetch(url);
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const list = block.querySelector(".set-list");
+    // Warm-ups precede the working sets; insert scaffold rows at the top.
+    data.sets.reverse().forEach((spec) => {
+      const row = addSetRow(block, { warmup: true, weight: spec.weight, reps: spec.reps });
+      list.insertBefore(row, list.firstChild);
+    });
   }
 
   // --- event delegation ------------------------------------------------------
@@ -103,10 +134,23 @@
       addSetRow(addSet.closest(".exercise-block"));
       return;
     }
+    const warmups = event.target.closest(".generate-warmups");
+    if (warmups) {
+      generateWarmups(warmups.closest(".exercise-block"));
+      return;
+    }
     const history = event.target.closest(".history-trigger");
     if (history) {
       openHistory(history.dataset.exerciseId);
       return;
+    }
+    // Long-press on a weight field opens the plate calculator for barbells.
+    const weightLabel = event.target.closest(".weight-input");
+    if (weightLabel && event.detail === 2) {
+      const block = weightLabel.closest(".exercise-block");
+      if (block.dataset.barWeight) {
+        window.BestYet.PlateCalc.open(block.dataset.exerciseId, weightLabel.value || "0");
+      }
     }
   });
 
@@ -131,7 +175,12 @@
       if (!ok) return;
     }
     await ensureSession();
-    const resp = await postJSON(`/logbook/api/session/${sessionId}/finish/`, {});
+    const body = {};
+    if (backdated) {
+      const endedAt = backdateValue("backdate-ended");
+      if (endedAt) body.ended_at = endedAt;
+    }
+    const resp = await postJSON(root.dataset.finishUrl, body);
     if (resp.ok) {
       window.BestYet.WakeLock.release();
       window.location.href = "/logbook/";

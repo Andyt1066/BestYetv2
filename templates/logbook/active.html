@@ -11,7 +11,25 @@
      {% if routine %}data-routine-id="{{ routine.pk }}"{% endif %}
      data-start-url="{% url 'logbook:session_start' %}"
      data-set-url="{% url 'logbook:set_upsert' %}"
-     data-picker-url="{% url 'exercises:picker' %}">
+     data-finish-url="{% url 'logbook:session_finish' session_id %}"
+     data-picker-url="{% url 'exercises:picker' %}"
+     data-plates-url="{% url 'logbook:plates' %}"
+     data-warmups-url="{% url 'logbook:warmups' %}"
+     {% if backdated %}data-backdated="1"{% endif %}>
+
+  {% if backdated %}
+  <div class="mb-4 rounded-xl border border-zinc-200 bg-white p-4 dark:border-zinc-800 dark:bg-zinc-900">
+    <p class="mb-2 text-sm font-medium">Log a past session</p>
+    <label class="mb-2 flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Started
+      <input type="datetime-local" id="backdate-started" class="min-h-11 rounded-lg border border-zinc-300 px-3 dark:border-zinc-700 dark:bg-zinc-900">
+    </label>
+    <label class="flex flex-col gap-1 text-xs font-medium text-zinc-500">
+      Ended
+      <input type="datetime-local" id="backdate-ended" class="min-h-11 rounded-lg border border-zinc-300 px-3 dark:border-zinc-700 dark:bg-zinc-900">
+    </label>
+  </div>
+  {% endif %}
 
   {% if session.edited_at %}
   <p class="mb-3 rounded-lg bg-zinc-200 px-3 py-1 text-xs font-medium text-zinc-600 dark:bg-zinc-800 dark:text-zinc-400">Edited after finish</p>
@@ -60,6 +78,19 @@
   </div>
 </div>
 
+{# Plate calculator popover #}
+<div id="plate-popover" hidden class="fixed inset-0 z-40 flex items-end bg-black/40">
+  <div class="w-full rounded-t-2xl bg-white p-4 dark:bg-zinc-900">
+    <div class="mb-3 flex items-center justify-between">
+      <h2 class="text-lg font-semibold">Plates <span id="plate-weight" class="text-zinc-400"></span></h2>
+      <button type="button" id="plate-close" class="min-h-11 min-w-11 text-zinc-400" aria-label="Close">
+        <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div id="plate-body" class="text-sm"></div>
+  </div>
+</div>
+
 {# History bottom sheet #}
 <div id="history-sheet" hidden class="fixed inset-0 z-40 flex items-end bg-black/40">
   <div class="max-h-[70vh] w-full overflow-y-auto rounded-t-2xl bg-white p-4 dark:bg-zinc-900">
@@ -83,5 +114,6 @@
 <script src="{% static 'js/steppers.js' %}"></script>
 <script src="{% static 'js/rest-timer.js' %}"></script>
 <script src="{% static 'js/wake-lock.js' %}"></script>
+<script src="{% static 'js/plate-calc.js' %}"></script>
 <script src="{% static 'js/active-workout.js' %}"></script>
 {% endblock %}

@@ -63,10 +63,17 @@ def session_start(request):
         routine = get_object_or_404(
             Routine, Q(owner=request.user) | Q(visibility="curated"), pk=data["routine"]
         )
-    session, _created = WorkoutSession.all_objects.get_or_create(
-        pk=session_id,
-        defaults={"user": request.user, "started_at": started_at, "routine": routine},
+    existing = WorkoutSession.all_objects.filter(pk=session_id).first()
+    if existing is not None:
+        return JsonResponse({"id": str(existing.pk)})  # idempotent replay
+    session = WorkoutSession(
+        pk=session_id, user=request.user, started_at=started_at, routine=routine
     )
+    try:
+        session.full_clean(exclude=["deleted_at"])
+    except ValidationError as exc:
+        return JsonResponse({"errors": exc.message_dict}, status=400)
+    session.save()
     return JsonResponse({"id": str(session.pk)})
 
 
@@ -77,7 +84,8 @@ def session_finish(request, pk):
     data = _payload(request) or {}
     already_finished = session.is_finished
     if not already_finished:
-        session.ended_at = timezone.now()
+        # Backdated sessions supply their own end; live ones end now.
+        session.ended_at = parse_datetime(data.get("ended_at", "")) or timezone.now()
     if "session_rpe" in data:
         try:
             session.session_rpe = _dec(data["session_rpe"])
@@ -85,6 +93,10 @@ def session_finish(request, pk):
             return JsonResponse({"errors": {"session_rpe": ["Not a number"]}}, status=400)
     if "notes" in data:
         session.notes = data["notes"]
+    try:
+        session.full_clean(exclude=["deleted_at"])
+    except ValidationError as exc:
+        return JsonResponse({"errors": exc.message_dict}, status=400)
     session.save()
     if already_finished:
         session.mark_edited()
