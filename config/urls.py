@@ -10,6 +10,7 @@ urlpatterns = [
     path("", RedirectView.as_view(pattern_name="routines:list"), name="home"),
     path("routines/", include("apps.routines.urls")),
     path("exercises/", include("apps.exercises.urls")),
+    path("logbook/", include("apps.logbook.urls")),
     path("accounts/login/", auth_views.LoginView.as_view(), name="login"),
     path("accounts/logout/", auth_views.LogoutView.as_view(), name="logout"),
     path(

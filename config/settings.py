@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "apps.accounts",
     "apps.exercises",
     "apps.routines",
+    "apps.logbook",
 ]
 
 MIDDLEWARE = [
