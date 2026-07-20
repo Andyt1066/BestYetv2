@@ -127,3 +127,33 @@ class RoutineRotation(TimeStampedModel):
     def clean(self):
         if self.routine_id and self.routine.archived:
             raise ValidationError({"routine": "Archived routines cannot be added to the rotation."})
+
+
+class DeloadPeriodManager(models.Manager):
+    def active_for(self, user, today):
+        return self.filter(user=user, start_date__lte=today, end_date__gte=today).first()
+
+
+class DeloadPeriod(TimeStampedModel):
+    """A one-week deload window (spec §5.1). Kept as rows, not a profile date,
+    so progression evaluation can exclude sessions falling inside *any*
+    historical window, including backdated ones (invariant 19)."""
+
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="deload_periods"
+    )
+    start_date = models.DateField()
+    end_date = models.DateField()
+
+    objects = DeloadPeriodManager()
+
+    class Meta:
+        ordering = ["-start_date"]
+
+    def __str__(self):
+        return f"{self.user} deload {self.start_date}..{self.end_date}"
+
+    def cancel(self, today):
+        # Truncate the window to today so the remaining days are cleared.
+        self.end_date = today
+        self.save(update_fields=["end_date", "updated_at"])

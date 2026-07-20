@@ -4,6 +4,24 @@
 {% block screen_title %}Workout{% endblock %}
 
 {% block content %}
+{% if deload %}
+<div class="mb-4 flex items-center justify-between rounded-xl border border-orange-300 bg-orange-50 p-4 dark:border-orange-500/60 dark:bg-orange-950/40">
+  <div>
+    <p class="font-semibold text-orange-900 dark:text-orange-200">Deload week</p>
+    <p class="text-sm text-orange-800/80 dark:text-orange-200/70">Ends {{ deload.end_date|date:"j M" }} — suggestions are scaled down</p>
+  </div>
+  <form method="post" action="{% url 'routines:deload_cancel' %}">
+    {% csrf_token %}
+    <button class="min-h-11 rounded-lg border border-orange-400 px-3 text-sm font-medium text-orange-800 dark:text-orange-200">End</button>
+  </form>
+</div>
+{% else %}
+<form method="post" action="{% url 'routines:deload_start' %}" class="mb-4">
+  {% csrf_token %}
+  <button class="min-h-11 w-full rounded-xl border border-zinc-300 text-sm font-medium dark:border-zinc-700">Start deload week</button>
+</form>
+{% endif %}
+
 {% for session in unfinished %}
 <a href="{% url 'logbook:active' session.pk %}"
    class="mb-4 flex items-center justify-between rounded-xl border border-amber-400 bg-amber-50 p-4 dark:border-amber-500/60 dark:bg-amber-950/40">

@@ -26,6 +26,20 @@
   </p>
   {% endif %}
 
+  {% with s=block.suggestion %}
+  {% if s and s.weight_kg is not None %}
+  <p class="mb-2 rounded-lg px-3 py-1.5 text-sm font-medium
+     {% if s.kind == 'deload' or s.kind == 'deload_week' %}bg-orange-100 text-orange-800 dark:bg-orange-950 dark:text-orange-200{% else %}bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-200{% endif %}">
+    {% if s.kind == 'progress' %}Suggestion: progress to {{ s.weight_kg }} kg
+    {% elif s.kind == 'hold' %}Suggestion: hold {{ s.weight_kg }} kg, aim for more reps
+    {% elif s.kind == 'deload' %}Deload suggested: {{ s.weight_kg }} kg after {{ s.stall_count }} stalls
+    {% elif s.kind == 'deload_week' %}Deload week: {{ s.weight_kg }} kg
+    {% elif s.kind == 'prefill' %}Last time: {{ s.weight_kg }} kg
+    {% endif %}
+  </p>
+  {% endif %}
+  {% endwith %}
+
   <ul class="set-list flex flex-col gap-2">
     {% for planned in block.planned_sets %}
       {% include "logbook/partials/_set_row.html" with planned=planned block=block done=planned.logged %}

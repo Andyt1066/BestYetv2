@@ -7,6 +7,8 @@ suggestion. A SetLog row appears only when a set is ticked.
 
 from dataclasses import dataclass, field
 
+from django.utils import timezone
+
 from apps.logbook.models import SetLog, SetType
 
 
@@ -32,6 +34,7 @@ class ScaffoldBlock:
     superset_rest_seconds: object = None
     last_set_amrap: bool = False
     planned_sets: list = field(default_factory=list)
+    suggestion: object = None  # a progression Suggestion (display-only)
 
 
 def _last_performance(user, exercise):
@@ -57,6 +60,9 @@ def build_scaffold(user, routine, session=None):
     """
     if routine is None:
         return []
+    from apps.routines.progression import suggest
+
+    today = timezone.localdate()
     logged_by_exercise = {}
     if session is not None:
         for entry in session.sets.select_related("exercise").order_by("position", "completed_at"):
@@ -65,6 +71,7 @@ def build_scaffold(user, routine, session=None):
     blocks = []
     for entry in routine.exercises.select_related("exercise"):
         ghost_weight, ghost_reps = _last_performance(user, entry.exercise)
+        suggestion = suggest(entry, user, today=today)
         logged = logged_by_exercise.get(entry.exercise_id, [])
         planned = []
         row_count = max(entry.target_sets, len(logged))
@@ -93,6 +100,7 @@ def build_scaffold(user, routine, session=None):
                 superset_rest_seconds=entry.superset_rest_seconds,
                 last_set_amrap=entry.last_set_amrap,
                 planned_sets=planned,
+                suggestion=suggestion,
             )
         )
     return blocks

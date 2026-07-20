@@ -3,12 +3,13 @@ import uuid
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, render
+from django.utils import timezone
 
 from apps.exercises.models import Exercise
 from apps.logbook.models import SetLog, SetType, WorkoutSession
 from apps.logbook.prs import epley_e1rm
 from apps.logbook.scaffold import build_scaffold
-from apps.routines.models import Routine
+from apps.routines.models import DeloadPeriod, Routine
 
 
 @login_required
@@ -17,10 +18,11 @@ def start(request):
     unfinished = WorkoutSession.objects.filter(user=request.user, ended_at__isnull=True).order_by(
         "-started_at"
     )
+    deload = DeloadPeriod.objects.active_for(request.user, today=timezone.localdate())
     return render(
         request,
         "logbook/start.html",
-        {"routines": routines, "unfinished": unfinished},
+        {"routines": routines, "unfinished": unfinished, "deload": deload},
     )
 
 

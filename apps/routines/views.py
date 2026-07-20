@@ -3,10 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Max
 from django.http import HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 from django.views.decorators.http import require_POST
 
+from apps.routines.deload import start_deload_week
 from apps.routines.forms import RoutineCreateForm, RoutineExerciseFormSet, RoutineForm
-from apps.routines.models import Routine, RoutineRotation, Visibility
+from apps.routines.models import DeloadPeriod, Routine, RoutineRotation, Visibility
 
 
 def owned(request, pk):
@@ -138,3 +140,25 @@ def rotation_reorder(request):
             entry.position = position
             entry.save(update_fields=["position", "updated_at"])
     return redirect("routines:rotation")
+
+
+@login_required
+@require_POST
+def deload_start(request):
+    today = timezone.localdate()
+    # Idempotent while one is already running: don't stack windows.
+    if DeloadPeriod.objects.active_for(request.user, today=today) is None:
+        start_deload_week(request.user, today=today)
+        messages.success(request, "Deload week started.")
+    return redirect(request.POST.get("next") or "logbook:start")
+
+
+@login_required
+@require_POST
+def deload_cancel(request):
+    today = timezone.localdate()
+    active = DeloadPeriod.objects.active_for(request.user, today=today)
+    if active is not None:
+        active.cancel(today=today)
+        messages.success(request, "Deload week ended.")
+    return redirect(request.POST.get("next") or "logbook:start")
